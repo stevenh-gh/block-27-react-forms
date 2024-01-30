@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function SignUpForm()
+function SignUpForm({ setToken })
 {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -26,10 +26,12 @@ function SignUpForm()
 				})
 			});
 			const data = await res.json();
-			console.log(data);
+			console.log(data.token);
+			setToken(data.token);
 		}
 		catch(error)
 		{
+			setError(error);
 			console.log(error);
 		}
 	}
@@ -37,6 +39,7 @@ function SignUpForm()
 	return (
 		<>
 			<h2>Sign up</h2>
+			{ error && <p>{error}</p> }
 			<form onSubmit={(e) => handleSubmit(e)}>
 				<label>
 					Username:
